@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - HRMS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <h1>HRMS</h1>
+        <p>Human Resource Management System</p>
+      </div>
+      <h2>Sign In</h2>
+      <div id="alert-container"></div>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" class="form-control" placeholder="Enter username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="form-control" placeholder="Enter password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="login-btn">Login</button>
+      </form>
+      <div class="auth-footer">
+        Don't have an account? <a href="signup.html">Sign up</a>
+      </div>
+      <div class="auth-hint">
+        <strong>Demo:</strong> Register as <code>ADMIN</code> first via Signup, then login.
+      </div>
+    </div>
+  </div>
+  <div id="loading-overlay"><div class="spinner"></div></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/permissions.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/utils.js"></script>
+  <script>
+    if (AuthService.isLoggedIn()) window.location.href = AuthService.getRedirectPath();
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('expired')) {
+      Utils.showAlert('Session expired. Please login again.', 'warning');
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errors = Utils.validateRequired(e.target, [
+        { id: 'username', label: 'Username' },
+        { id: 'password', label: 'Password' }
+      ]);
+      if (errors.length) {
+        Utils.showAlert(errors.join('. '), 'error');
+        return;
+      }
+      Utils.setLoading(true);
+      try {
+        const res = await AuthService.login(
+          document.getElementById('username').value.trim(),
+          document.getElementById('password').value
+        );
+        Utils.showAlert('Login successful! Redirecting...', 'success');
+        const redirect = res.redirectPath || AuthService.getRedirectPath() || 'dashboard.html';
+        setTimeout(() => window.location.href = redirect, 800);
+      } catch (err) {
+        Utils.showAlert(err.message, 'error');
+      } finally {
+        Utils.setLoading(false);
+      }
+    });
+  </script>
+</body>
+</html>

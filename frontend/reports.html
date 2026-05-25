@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports - HRMS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand"><h1>HRMS</h1><span>Management System</span></div>
+      <nav id="sidebar-nav"></nav>
+      <div class="sidebar-footer">
+        <div id="sidebar-user"></div>
+        <button class="btn btn-outline btn-block" id="logout-btn" style="color:#fff;border-color:rgba(255,255,255,0.3);">Logout</button>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar">
+        <button id="menu-toggle" aria-label="Menu">☰</button>
+        <h2 id="page-title">Reports</h2>
+      </header>
+      <div class="page-content">
+        <div id="alert-container"></div>
+        <p id="rpt-subtitle" class="text-muted" style="margin-bottom:20px;">Organization overview and pending items</p>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue">👥</div>
+            <div class="stat-info"><h3 id="rpt-total-employees">-</h3><p>Employees</p></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon yellow">🏖</div>
+            <div class="stat-info"><h3 id="rpt-pending-leave">-</h3><p>Pending Leave</p></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">✅</div>
+            <div class="stat-info"><h3 id="rpt-active-tasks">-</h3><p>Active Tasks</p></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">💰</div>
+            <div class="stat-info"><h3 id="rpt-pending-payroll">-</h3><p>Pending Payroll</p></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>Employees by Department</h3></div>
+          <table>
+            <thead><tr><th>Department</th><th>Count</th></tr></thead>
+            <tbody id="rpt-dept-tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>Pending Leave Requests</h3></div>
+          <div class="table-responsive">
+            <table>
+              <thead><tr><th>Employee</th><th>Type</th><th>Period</th><th>Status</th></tr></thead>
+              <tbody id="rpt-leave-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div id="loading-overlay"><div class="spinner"></div></div>
+  <script src="js/config.js"></script>
+  <script src="js/permissions.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/reports.js"></script>
+</body>
+</html>

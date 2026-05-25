@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payroll - HRMS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand"><h1>HRMS</h1><span>Management System</span></div>
+      <nav id="sidebar-nav"></nav>
+      <div class="sidebar-footer">
+        <div id="sidebar-user"></div>
+        <button class="btn btn-outline btn-block" id="logout-btn" style="color:#fff;border-color:rgba(255,255,255,0.3);">Logout</button>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar"><button id="menu-toggle">☰</button><h2 id="page-title">Payroll</h2></header>
+      <div class="page-content" id="payroll-main">
+        <div id="alert-container"></div>
+
+        <div class="card" id="payroll-admin-section">
+          <div class="card-header"><h3>Generate Payroll</h3></div>
+          <form id="payroll-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Employee *</label>
+                <select id="pay-employeeId" required></select>
+              </div>
+              <div class="form-group">
+                <label>Pay Month * (YYYY-MM)</label>
+                <input type="month" id="pay-month" required>
+              </div>
+              <div class="form-group">
+                <label>Basic Salary *</label>
+                <input type="number" id="pay-basic" min="0" step="0.01" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>HRA</label><input type="number" id="pay-hra" min="0" value="0"></div>
+              <div class="form-group"><label>DA</label><input type="number" id="pay-da" min="0" value="0"></div>
+              <div class="form-group"><label>Other Allowance</label><input type="number" id="pay-other-allow" min="0" value="0"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>PF Deduction</label><input type="number" id="pay-pf" min="0" value="0"></div>
+              <div class="form-group"><label>Tax Deduction</label><input type="number" id="pay-tax" min="0" value="0"></div>
+              <div class="form-group"><label>Other Deduction</label><input type="number" id="pay-other-ded" min="0" value="0"></div>
+            </div>
+            <div class="form-group">
+              <label>Days Worked</label>
+              <input type="number" id="pay-days" min="1" max="31" value="22">
+            </div>
+            <button type="submit" class="btn btn-primary">Generate Payroll</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>Payroll Records</h3></div>
+          <div class="toolbar">
+            <input type="month" id="filter-month" placeholder="Filter month">
+            <button class="btn btn-primary" id="load-payroll-btn">Load All</button>
+            <button class="btn btn-outline" id="load-by-month-btn">Filter by Month</button>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Employee</th><th>Month</th><th>Gross</th><th>Deductions</th><th>Net</th><th>Status</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="payroll-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div id="loading-overlay"><div class="spinner"></div></div>
+  <script src="js/config.js"></script>
+  <script src="js/permissions.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/payroll.js"></script>
+</body>
+</html>

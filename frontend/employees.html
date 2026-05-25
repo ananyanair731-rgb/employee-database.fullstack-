@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employees - HRMS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand"><h1>HRMS</h1><span>Management System</span></div>
+      <nav id="sidebar-nav"></nav>
+      <div class="sidebar-footer">
+        <div id="sidebar-user"></div>
+        <button class="btn btn-outline btn-block" id="logout-btn" style="color:#fff;border-color:rgba(255,255,255,0.3);">Logout</button>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar">
+        <button id="menu-toggle">☰</button>
+        <h2 id="page-title">Employees</h2>
+      </header>
+      <div class="page-content">
+        <div id="alert-container"></div>
+        <div class="card">
+          <div class="card-header">
+            <h3>Employees</h3>
+            <div>
+              <button class="btn btn-outline hidden" id="edit-profile-btn">Edit My Profile</button>
+              <button class="btn btn-primary" id="add-employee-btn">+ Add Employee</button>
+            </div>
+          </div>
+          <div class="toolbar">
+            <div class="search-box">
+              <input type="text" id="search-input" placeholder="Search by name, email, department...">
+              <button class="btn btn-primary" id="search-btn">Search</button>
+            </div>
+            <button class="btn btn-outline" id="refresh-btn">Refresh</button>
+          </div>
+          <div class="table-responsive" id="employees-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Code</th><th>Name</th><th>Email</th><th>Dept</th>
+                  <th>Designation</th><th>Role</th><th>Salary</th><th>Status</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="employees-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal" id="employee-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">Add Employee</h3>
+        <button type="button" class="btn btn-outline btn-sm" id="modal-close">&times;</button>
+      </div>
+      <form id="employee-form">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group"><label>First Name *</label><input type="text" id="emp-firstName" required></div>
+            <div class="form-group"><label>Last Name *</label><input type="text" id="emp-lastName" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Email *</label><input type="email" id="emp-email" required></div>
+            <div class="form-group"><label>Phone *</label><input type="text" id="emp-phone" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Department *</label><input type="text" id="emp-department" required></div>
+            <div class="form-group"><label>Designation *</label><input type="text" id="emp-designation" required></div>
+          </div>
+          <div id="login-credentials-section">
+            <h4 class="section-label">Login Credentials</h4>
+            <div class="form-row">
+              <div class="form-group"><label>Username *</label><input type="text" id="emp-username"></div>
+              <div class="form-group"><label>Password *</label><input type="password" id="emp-password" minlength="6"></div>
+            </div>
+            <div class="form-group hidden" id="account-role-group">
+              <label>System Role (Admin only)</label>
+              <select id="emp-accountRole">
+                <option value="EMPLOYEE" selected>Employee</option>
+                <option value="HR">HR</option>
+                <option value="MANAGER">Manager</option>
+                <option value="ADMIN">Admin</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Salary</label><input type="number" id="emp-salary" min="0" step="0.01"></div>
+            <div class="form-group"><label>Employee Code</label><input type="text" id="emp-employeeCode"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Date of Joining</label><input type="date" id="emp-dateOfJoining"></div>
+            <div class="form-group"><label>Date of Birth</label><input type="date" id="emp-dateOfBirth"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Gender</label>
+              <select id="emp-gender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select>
+            </div>
+            <div class="form-group"><label>Status</label>
+              <select id="emp-employmentStatus">
+                <option value="ACTIVE">ACTIVE</option><option value="INACTIVE">INACTIVE</option>
+                <option value="ON_LEAVE">ON_LEAVE</option><option value="TERMINATED">TERMINATED</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group"><label>Manager Username</label><input type="text" id="emp-managerName" placeholder="Manager login username for team filter"></div>
+          <div class="form-group"><label>Address</label><textarea id="emp-address" rows="2"></textarea></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="form-submit-btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="self-profile-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Edit Personal Details</h3>
+        <button type="button" class="btn btn-outline btn-sm" id="self-modal-close">&times;</button>
+      </div>
+      <form id="self-profile-form">
+        <div class="modal-body">
+          <p class="text-muted">You can only update phone, address, and gender.</p>
+          <div class="form-group"><label>Phone</label><input type="text" id="self-phone" required></div>
+          <div class="form-group"><label>Gender</label>
+            <select id="self-gender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select>
+          </div>
+          <div class="form-group"><label>Address</label><textarea id="self-address" rows="2"></textarea></div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="loading-overlay"><div class="spinner"></div></div>
+  <script src="js/config.js"></script>
+  <script src="js/permissions.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/employees.js"></script>
+</body>
+</html>

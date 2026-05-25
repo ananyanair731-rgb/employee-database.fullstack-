@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leave - HRMS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand"><h1>HRMS</h1><span>Management System</span></div>
+      <nav id="sidebar-nav"></nav>
+      <div class="sidebar-footer">
+        <div id="sidebar-user"></div>
+        <button class="btn btn-outline btn-block" id="logout-btn" style="color:#fff;border-color:rgba(255,255,255,0.3);">Logout</button>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar"><button id="menu-toggle">☰</button><h2 id="page-title">Leave Management</h2></header>
+      <div class="page-content">
+        <div id="alert-container"></div>
+
+        <div class="card">
+          <div class="card-header"><h3>Apply for Leave</h3></div>
+          <form id="leave-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Employee *</label>
+                <select id="leave-employeeId" required></select>
+              </div>
+              <div class="form-group">
+                <label>Leave Type *</label>
+                <select id="leave-type" required>
+                  <option value="CASUAL">CASUAL</option>
+                  <option value="SICK">SICK</option>
+                  <option value="ANNUAL">ANNUAL</option>
+                  <option value="MATERNITY">MATERNITY</option>
+                  <option value="PATERNITY">PATERNITY</option>
+                  <option value="UNPAID">UNPAID</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>From Date *</label><input type="date" id="leave-from" required></div>
+              <div class="form-group"><label>To Date *</label><input type="date" id="leave-to" required></div>
+            </div>
+            <div class="form-group"><label>Reason *</label><textarea id="leave-reason" rows="3" required></textarea></div>
+            <button type="submit" class="btn btn-primary">Submit Leave Request</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>Leave Requests</h3></div>
+          <div class="toolbar">
+            <select id="filter-employeeId"><option value="">All Employees</option></select>
+            <button class="btn btn-primary" id="load-leave-btn">Load Records</button>
+            <button class="btn btn-outline" id="load-pending-btn">Pending Only</button>
+            <button class="btn btn-outline" id="load-all-btn">All (Admin/HR)</button>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Employee</th><th>Type</th><th>Period</th><th>Reason</th><th>Status</th><th>Approved By</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="leave-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div id="loading-overlay"><div class="spinner"></div></div>
+  <script src="js/config.js"></script>
+  <script src="js/permissions.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/leave.js"></script>
+</body>
+</html>
